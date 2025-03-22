@@ -17,7 +17,7 @@ class TipCalculatorTests {
     }
 
     @Test
-    fun calculateTip_20PercentRoundup() {
+    fun calculateTip_25PercentRoundup() {
         val amount = 10.00
         val tipPercent = 25.00
 
