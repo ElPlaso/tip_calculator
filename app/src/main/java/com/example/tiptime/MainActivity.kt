@@ -66,8 +66,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TipTimeLayout() {
     var amountInput by remember { mutableStateOf("") }
+    var tipPercentageInput by remember { mutableStateOf("15")}
+
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tipPercentage = tipPercentageInput.toDoubleOrNull() ?: 0.0
+
+    val tip = calculateTip(amount, tipPercentage)
 
     Column(
         modifier = Modifier
@@ -84,8 +88,17 @@ fun TipTimeLayout() {
                 .align(alignment = Alignment.Start)
         )
         NumberField(
+            label=stringResource(R.string.bill_amount),
             value = amountInput,
             onValueChange = { amountInput = it },
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth()
+        )
+        NumberField(
+            label= stringResource(R.string.tip_percentage),
+            value = tipPercentageInput,
+            onValueChange = { tipPercentageInput = it },
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
@@ -111,11 +124,12 @@ private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
 @Composable
 fun NumberField(
     value: String,
+    label: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
-        label = { Text(stringResource(R.string.bill_amount)) },
+        label = { Text(label) },
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
